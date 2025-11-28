@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use ParentIterator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\CssSelector\XPath\Extension\FunctionExtension;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,13 +36,14 @@ final class DataController extends AbstractController
         $act->setPrenom("ousmane");
         $act->setDateNaissance(new DateTime("2003-05-30"));
         $act->setSexe("M");
+        $act->setPays("Guinée");
 
         $act1 = new Acteur();
         $act1->setNom("sow");
         $act1->setPrenom("fatima");
         $act1->setDateNaissance(new DateTime("2006-02-05"));
         $act1->setSexe("F");
-
+        $act1->setPays("Senegal");
 
         $em->persist($act);
 
@@ -49,7 +51,23 @@ final class DataController extends AbstractController
         $em->flush();
 
         return new Response("Actteurs ajoutés" . $act->getId() . " , " . $act1->getId());
-    } 
+    }
+    // récupérer un acteur avec son ID
+    #[Route('/update-acteur', name: 'update_acteur')]
+    function updataActeur(EntityManagerInterface $em)
+    {
+
+        $acteur = $em->getRepository(Acteur::class)->find(1); //permet d'acceder à l'entité acteur, à l'acteur avec le id 1 via find()
+        $acteur->setPays("Guinée");
+        $acteur2 = $em->getRepository(Acteur::class)->find(3);
+        $acteur2->setPays("Senégal");
+        $acteur3 = $em->getRepository(Acteur::class)->find(4);
+        $acteur3->setPays("Belgique");
+        $em->flush();
+
+        return new Response("les acteurs suivant ont été  mis à jours <p>" . $acteur->getNom() . "</p> <p>" . $acteur2->getNom() . "</p> <p>" . $acteur3->getNom() . "</p>");
+    }
+
     #[Route('/add-film', name: 'add-film')]
     function addfilm(EntityManagerInterface $em)
     {
@@ -74,7 +92,7 @@ final class DataController extends AbstractController
 
         return new Response("les films suivant o,nt été ajoutées <p>" . $film->getTitre() . "</p> <p>" . $film2->getTitre() . "</p> <p>" . $film3->getTitre() . "</p>");
     }
-    
+
 
     #[Route('/add-categorie', name: 'add-categorie')]
     function addCategorie(EntityManagerInterface $em)

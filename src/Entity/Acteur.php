@@ -27,6 +27,19 @@ class Acteur
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $sexe = null;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $pays = null;
+
+    function setPays($pays)
+    {
+
+        $this->pays = $pays;
+    }
+
+    function getPays()
+    {
+        return $this->pays;
+    }
     public function getId(): ?int
     {
         return $this->id;
