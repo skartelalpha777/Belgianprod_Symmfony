@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ActeurRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -29,6 +31,17 @@ class Acteur
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $pays = null;
+
+    /**
+     * @var Collection<int, Film>
+     */
+    #[ORM\ManyToMany(targetEntity: Film::class, mappedBy: 'acteurs')]
+    private Collection $films;
+
+    public function __construct()
+    {
+        $this->films = new ArrayCollection();
+    }
 
     function setPays($pays)
     {
@@ -92,4 +105,38 @@ class Acteur
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Film>
+     */
+    public function getFilms(): Collection
+    {
+        return $this->films;
+    }
+
+    public function addFilm(Film $film): static
+    {
+        if (!$this->films->contains($film)) {
+            $this->films->add($film);
+            $film->addActeur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFilm(Film $film): static
+    {
+        if ($this->films->removeElement($film)) {
+            $film->removeActeur($this);
+        }
+
+        return $this;
+    }
+
+    // pour afficher les acteur du films apres avoir fait la referecnce de film vers acteur
+    public function __toString(): string
+{
+    // Retourne le Prénom et le Nom concaténés
+    return $this->prenom . ' ' . $this->nom; 
+}
 }

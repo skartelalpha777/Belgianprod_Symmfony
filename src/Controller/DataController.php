@@ -98,19 +98,7 @@ final class DataController extends AbstractController
     function addCategorie(EntityManagerInterface $em)
     {
 
-        $cat = new Categorie();
-        $cat->setNo("comedie");
-        $em->persist($cat);
-
-        $cat1 = new Categorie();
-        $cat1->setNo("action");
-        $em->persist($cat1);
-
-        $cat2 = new Categorie();
-        $cat2->setNo("drame");
-        $em->persist($cat2);
-
-        $em->flush();
-        return new Response("les categories suivantes <p>" . $cat->getNo() . "</p> <p>" . $cat1->getNo() . "</p> <p>" . $cat2->getNo() . "</p>");
+  
+       // return new Response("les categories suivantes <p>" . $cat->getNo() . "</p> <p>" . $cat1->getNo() . "</p> <p>" . $cat2->getNo() . "</p>");
     }
 }
