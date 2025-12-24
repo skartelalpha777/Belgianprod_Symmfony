@@ -3,6 +3,7 @@
 {% block title %}Film{% endblock %}
 
 {% block body %}
+
     <h1>Film</h1>
 
     <table class="table">
@@ -17,9 +18,14 @@
             </tr>
 
             <tr>
-                <th>Categorie du film</th>
-                {% for acteurs in film.acteurs%}
-                <td>{{ acteurs.nom }}</td>
+                <th> Acteurs du film </th>
+                {% for act in film.acteurs %}
+                {#<td>{{ act|join(', ') }}</td>#}
+                <td>{{ act~","}}</td>
+                {% else %}
+                 <td> aucun acteur pour ce film </td>
+
+                {% endfor %}
             </tr>
         </tbody>
     </table>
@@ -29,4 +35,5 @@
     <a href="{{ path('app_film_edit', {'id': film.id}) }}">edit</a>
 
     {{ include('film/_delete_form.html.twig') }}
+
 {% endblock %}

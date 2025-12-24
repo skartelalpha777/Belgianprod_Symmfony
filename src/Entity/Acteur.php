@@ -138,5 +138,5 @@ class Acteur
 {
     // Retourne le Prénom et le Nom concaténés
     return $this->prenom . ' ' . $this->nom; 
-}
+} 
 }

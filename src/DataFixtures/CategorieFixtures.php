@@ -12,6 +12,7 @@ class CategorieFixtures extends Fixture
     {
         // $product = new Product();
         // $manager->persist($product);
+        /*
         $cat = new Categorie();
         $cat->setNo("comedie");
         $manager->persist($cat);
@@ -25,5 +26,6 @@ class CategorieFixtures extends Fixture
         $manager->persist($cat2);
 
         $manager->flush();
+        */
     }
 }

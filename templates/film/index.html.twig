@@ -1,7 +1,3 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Film index{% endblock %}
-
 {% block body %}
     <h1>Film index</h1>
 
@@ -11,19 +7,35 @@
                 <th>Id</th>
                 <th>Titre</th>
                 <th>Description</th>
-                 <th>categorie</th>
-                <th>actions</th>
-                <th>Acteurs du film</th
+                <th>Categorie</th>
+                <th>Acteurs du film</th> <th>Actions</th>
             </tr>
         </thead>
         <tbody>
+        {# une bloucle pour afficher tout les films #}
         {% for film in films %}
             <tr>
                 <td>{{ film.id }}</td>
                 <td>{{ film.titre }}</td>
                 <td>{{ film.description }}</td>
-                <td>{{ film.categorie }}</td>
-                <td>{{ film.acteurs}}</td>
+                
+       
+                <td>
+                    {# on verie que le film a une categorie #}
+                    {{ film.categorie ? film.categorie.no : '' }}
+                </td>
+
+  
+                <td>
+                    {# On vérifie si la liste des acteurs n'est pas vide #}
+                    {% if film.acteurs is not empty %}
+                        {# On utilise "join" pour afficher les noms séparés par une virgule #}
+                        {{ film.acteurs|join(', ') }}
+                    {% else %}
+                        Aucun acteur
+                    {% endif %}
+                </td>
+
                 <td>
                     <a href="{{ path('app_film_show', {'id': film.id}) }}">show</a>
                     <a href="{{ path('app_film_edit', {'id': film.id}) }}">edit</a>
@@ -31,7 +43,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">no records found</td>
+                <td colspan="6">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

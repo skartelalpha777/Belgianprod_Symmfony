@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Entraînement Twig
+{% endblock %}
+
+{% block body %}
+  <div style="padding: 50px;">
+    <h1>Laboratoire Twig 🧪</h1>
+    <hr />
+
+    {#   {{dump(client)}} -> pour connaitre le contenu de la varible S#}
+
+    {# Exercice 1 #}
+    <h2>Client:</h2>
+    <P>Bonjour cher client</P>
+    <p>{{ client.prenom|upper }}</p>
+    <p>{{ date_commande|date('y-m-d') }}</p>
+    {% if client.premium %}
+      <p>Client VIP 🌟</p>
+    {% else %}
+      <button>Devenir Premium</button>
+    {% endif %}
+    <h3>Produits :</h3>
+
+    {% for produit in panier %}
+      <p>Produit: {{ produit.nom }}</p>
+      <p>Prix: {{ produit.prix }}</p>
+      {% if produit.stock < 1 %}
+        <p style="color: red;"> Rupture de stock</p>
+      {% else %}
+        <p>Stock:  {{produit.stock }}</p>
+      {% endif %}
+    {% endfor %}
+     <h3>Nombre total d'article different:</h3>
+        <p>{{ panier|length}}</p>
+      
+
+  </div>
+{% endblock %}

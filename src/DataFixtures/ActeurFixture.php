@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Acteur;
+use App\Entity\Film;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -35,5 +36,7 @@ class ActeurFixture extends Fixture
 
 
         $manager->flush(); */
+
+        
     }
 }
