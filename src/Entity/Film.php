@@ -32,6 +32,9 @@ class Film
     #[ORM\ManyToMany(targetEntity: Acteur::class, inversedBy: 'films')]
     private Collection $acteurs;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $img = null;
+
     public function __construct()
     {
         $this->acteurs = new ArrayCollection();
@@ -98,6 +101,18 @@ class Film
     public function removeActeur(Acteur $acteur): static
     {
         $this->acteurs->removeElement($acteur);
+
+        return $this;
+    }
+
+    public function getImg(): ?string
+    {
+        return $this->img;
+    }
+
+    public function setImg(?string $img): static
+    {
+        $this->img = $img;
 
         return $this;
     }

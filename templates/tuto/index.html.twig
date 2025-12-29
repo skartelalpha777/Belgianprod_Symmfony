@@ -9,7 +9,7 @@
     <h1>Laboratoire Twig 🧪</h1>
     <hr />
 
-    {#   {{dump(client)}} -> pour connaitre le contenu de la varible S#}
+    {# {{dump(client)}} -> pour connaitre le contenu de la varible S #}
 
     {# Exercice 1 #}
     <h2>Client:</h2>
@@ -27,14 +27,18 @@
       <p>Produit: {{ produit.nom }}</p>
       <p>Prix: {{ produit.prix }}</p>
       {% if produit.stock < 1 %}
-        <p style="color: red;"> Rupture de stock</p>
+        <p style="color: red;">Rupture de stock</p>
       {% else %}
-        <p>Stock:  {{produit.stock }}</p>
+        <p>Stock: {{ produit.stock }}</p>
       {% endif %}
     {% endfor %}
-     <h3>Nombre total d'article different:</h3>
-        <p>{{ panier|length}}</p>
-      
-
+    <h3>Nombre total d'article different:</h3>
+    <p>{{ panier|length }}</p>
+    {# #[Route('/tuto-twig', name: 'app_tuto_twig')]
+    public function index(): Response { ... }
+    -> pour les url il faut
+    toujours mettre le path puis chemein au dessu de la fonction 
+    dans le controller #}
+    <a href="{{ path('app_tuto_twig_2') }}">Aller au niveau2</a>
   </div>
 {% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block head %}
+  {% block title %}
+    Entrainement Twig Niveau2
+  {% endblock %}
+{% endblock %}
+
+{% block body %}
+  <div class="container mt-5">
+    <h1>Gestion des Commandes 📦</h1>
+    <a href="{{ path('app_tuto_twig') }}">⬅️ Retour au Niveau 1</a>
+    <hr />
+
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Client</th>
+          <th>Statut</th>
+          <th>Produits</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for cm in commandes %}
+          {% set color = 'none' %}
+
+          {% if cm.statut == 'livré' %}
+            {% set color = '#d4edda' %}
+          {% endif %}
+
+          {% if cm.statut == 'en_attente' %}
+            {% set color = '#fff3cd;' %}
+          {% endif %}
+
+          {% if cm.statut == 'annulé' %}
+            {% set color = '#990d19ff;' %}
+          {% endif %}
+   
+  
+
+          <tr style="background-color:{{color}}">
+            <td>{{ cm.id }}</td>
+            <td>{{ cm.client }}</td>
+            <td>{{ cm.statut }}</td>
+            <td>
+              {% if cm.produits is not empty %}
+               <ul>
+                {% for produit in cm.produits %}
+                 
+                    <li>{{ produit.nom }}</li>
+                    <li>Prix {{ produit.prix }}</li>
+                    <li>Quantité {{ produit.qte }}</li>
+                 
+                   {% endfor %}
+                    </ul> 
+                {% else %}
+                  <p>Aucune commande pour l'insntant</p>
+               
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

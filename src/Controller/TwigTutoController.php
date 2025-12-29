@@ -31,4 +31,40 @@ class TwigTutoController extends AbstractController
             'date_commande' => new \DateTime('now')
         ]);
     }
+
+    #[Route('/tuto-twig-2', name: 'app_tuto_twig_2')]
+    public function niveau2(): Response
+    {
+        // Simulation d'une liste de commandes pour l'exercice
+        $commandes = [
+            [
+                'id' => 'CMD-001',
+                'client' => 'Jean Dupont',
+                'statut' => 'livré',
+                'produits' => [
+                    ['nom' => 'Vélo', 'prix' => 200, 'qte' => 1],
+                    ['nom' => 'Casque', 'prix' => 50, 'qte' => 2],
+                ]
+            ],
+            [
+                'id' => 'CMD-002',
+                'client' => 'Marie Curie',
+                'statut' => 'en_attente',
+                'produits' => [
+                    ['nom' => 'Ordinateur', 'prix' => 1000, 'qte' => 1],
+                ]
+            ],
+            [
+                'id' => 'CMD-003',
+                'client' => 'Albert Einstein',
+                'statut' => 'annulé',
+                'produits' => [] // Commande vide
+            ]
+        ];
+
+        // On envoie ces données vers une NOUVELLE vue
+        return $this->render('tuto/index2.html.twig', [
+            'commandes' => $commandes
+        ]);
+    }
 }
