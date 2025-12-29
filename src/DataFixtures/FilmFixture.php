@@ -26,12 +26,13 @@ class FilmFixture extends Fixture
             $f->setDescription($filmData[1]);
             $manager->persist($f);
         }
-*/
+
         // 2. Appeler votre fonction pour ajouter Forrest Gump
         $this->addForrestGump($manager);
 
         // 3. Tout envoyer en base de données d'un coup
         $manager->flush();
+        */
     }
 
  
