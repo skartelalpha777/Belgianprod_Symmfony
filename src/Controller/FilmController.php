@@ -10,6 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface; // 
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
 
 #[Route('/film')]
 final class FilmController extends AbstractController
@@ -23,13 +26,37 @@ final class FilmController extends AbstractController
     }
 
     #[Route('/new', name: 'app_film_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $film = new Film();
         $form = $this->createForm(FilmType::class, $film);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $imageFile = $form->get('img')->getData();
+            if ($imageFile) {
+                $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // On nettoie le nom du fichier (supprime les accents, espaces...)
+                $safeFilename = $slugger->slug($originalFilename);
+                // On ajoute un ID unique au nom pour éviter qu'une image en écrase une autre
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $imageFile->guessExtension();
+
+                // 3. On déplace le fichier dans le dossier public/uploads
+                try {
+                    $imageFile->move(
+                        $this->getParameter('kernel.project_dir') . '/public/assets/img',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // Gérer l'erreur si l'upload échoue
+                }
+
+                // 4. On enregistre SEULEMENT LE NOM du fichier dans la base de données
+                $film->setImg($newFilename);
+            }
+
+
             $entityManager->persist($film);
             $entityManager->flush();
 
@@ -71,7 +98,7 @@ final class FilmController extends AbstractController
     #[Route('/{id}', name: 'app_film_delete', methods: ['POST'])]
     public function delete(Request $request, Film $film, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$film->getId(), $request->getPayload()->getString('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $film->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($film);
             $entityManager->flush();
         }

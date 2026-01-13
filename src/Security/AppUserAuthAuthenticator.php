@@ -15,6 +15,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\PasswordC
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Component\VarDumper\VarDumper;
 
 class AppUserAuthAuthenticator extends AbstractLoginFormAuthenticator
 {
@@ -29,6 +30,7 @@ class AppUserAuthAuthenticator extends AbstractLoginFormAuthenticator
         $email = $request->getPayload()->getString('email');
 
         $request->getSession()->set(SecurityRequestAttributes::LAST_USERNAME, $email);
+        
 
         return new Passport(
             new UserBadge($email),

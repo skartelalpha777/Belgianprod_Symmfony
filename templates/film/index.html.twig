@@ -25,7 +25,7 @@
         <nav class="navbar">
           <div class="container-fluid pb-4">
             <form class="d-flex" role="search">
-              <input class="form-control me-2 text-black rounded-pill " type="search" placeholder="🔍 Rechercher un film..." aria-label="Search" />
+              <input class="form-control me-2 text-black rounded-pill" type="search" placeholder="🔍 Rechercher un film..." aria-label="Search" />
               <button class="btn btn-primary btn-lg my-5 text-black rounded-pill" type="submit">Chercher</button>
             </form>
           </div>
@@ -38,9 +38,9 @@
 
     <div class="row">
       {% for flm in films %}
-        <div class="col">
+        <div class="col-md-3">
           <div class="card" style="width: 18rem;">
-            <img src="{{ asset(flm.img) }}" class="card-img-top" alt="affiche du film" />
+            <img src="{{ asset('assets/img/' ~ flm.img) }}" class="card-img-top" alt="affiche du film" />
             <div class="card-body">
               <h5 class="card-title">{{ flm.titre }}</h5>
               <p class="card-text">{{ flm.description }}</p>
